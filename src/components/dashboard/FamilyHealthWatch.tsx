@@ -39,14 +39,12 @@ export default function FamilyHealthWatch() {
             <div className="mt-4 flex items-center justify-between">
               <p className="text-sm font-medium">{member.healthMetric}</p>
               <div className="flex items-center gap-2">
-                <Link href={`/family/${member.id}`} passHref>
-                  <Button asChild size="sm" variant="outline">
-                    <a>
-                        <BarChart className="w-4 h-4 mr-2" />
-                        Details
-                    </a>
-                  </Button>
-                </Link>
+                <Button asChild size="sm" variant="outline">
+                  <Link href={`/family/${member.id}`}>
+                      <BarChart className="w-4 h-4 mr-2" />
+                      Details
+                  </Link>
+                </Button>
                 <Button size="icon" variant="destructive">
                   <ShieldAlert className="w-4 h-4" />
                   <span className="sr-only">Emergency</span>
