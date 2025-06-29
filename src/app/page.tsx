@@ -22,12 +22,12 @@ export default function Home() {
         </div>
       </header>
       <main className="flex-1 space-y-6 p-4 sm:p-6">
-        <PatientSummary />
         <div className="grid gap-6 md:grid-cols-2">
           <UpcomingAppointments />
           <MedicationSchedule />
         </div>
         <HealthOverview />
+        <PatientSummary />
       </main>
     </div>
   );
