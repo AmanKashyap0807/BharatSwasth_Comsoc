@@ -37,7 +37,9 @@ export default function FamilyHealthWatch() {
               <span className="text-xs text-muted-foreground">Updated {member.lastUpdated}</span>
             </div>
             <div className="mt-4 flex items-center justify-between">
-              <p className="text-sm font-medium">{member.healthMetric}</p>
+              <p className="text-sm font-medium">
+                {member.condition !== "Healthy" ? member.healthMetric : ""}
+              </p>
               <div className="flex items-center gap-2">
                 <Button asChild size="sm" variant="outline">
                   <Link href={`/family/${member.id}`}>
