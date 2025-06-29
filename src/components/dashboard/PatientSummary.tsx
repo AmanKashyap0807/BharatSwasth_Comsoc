@@ -1,10 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { AlertCircle, ShieldCheck, Star } from "lucide-react"
+import { AlertCircle, ShieldCheck } from "lucide-react"
 
 export default function PatientSummary() {
   return (
-    <div className="grid gap-6 md:grid-cols-3 mb-6">
+    <div className="grid gap-6 md:grid-cols-2 mb-6">
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
@@ -29,19 +29,6 @@ export default function PatientSummary() {
             <Badge variant="outline">Low-sodium diet</Badge>
             <Badge variant="outline">Monitor sugar intake</Badge>
             <Badge variant="outline">Regular exercise</Badge>
-        </CardContent>
-      </Card>
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Star className="w-6 h-6 text-yellow-400 fill-yellow-400" />
-            Health Quest
-          </CardTitle>
-          <CardDescription>Your gamification points.</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="text-3xl font-bold">1,250 Points</div>
-          <p className="text-xs text-muted-foreground mt-1">Keep it up! Complete daily tasks to earn more.</p>
         </CardContent>
       </Card>
     </div>
