@@ -5,6 +5,7 @@ import MediBot from '@/components/dashboard/MediBot';
 import ProviderMessaging from '@/components/dashboard/ProviderMessaging';
 import FamilyHealthWatch from '@/components/dashboard/FamilyHealthWatch';
 import WhatsAppConsults from '@/components/dashboard/WhatsAppConsults';
+import MedicDocuments from '@/components/dashboard/MedicDocuments';
 import { Toaster } from "@/components/ui/toaster";
 
 export default function Home() {
@@ -21,6 +22,7 @@ export default function Home() {
               <div className="lg:col-span-2 space-y-6">
                 <HealthOverview />
                 <TreatmentTracker />
+                <MedicDocuments />
                 <div className="grid gap-6 md:grid-cols-2">
                   <ProviderMessaging />
                   <WhatsAppConsults />
