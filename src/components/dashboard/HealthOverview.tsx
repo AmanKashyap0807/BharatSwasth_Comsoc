@@ -1,7 +1,7 @@
 "use client"
 
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Sun, Cloud, CloudRain, HeartPulse, Droplets, Wind, Pill } from "lucide-react"
+import { Sun, HeartPulse, Droplets, Wind, Pill } from "lucide-react"
 import { RadialBarChart, RadialBar, PolarGrid, Tooltip, ResponsiveContainer } from "recharts"
 import { SunflowerIcon } from "@/components/icons"
 
@@ -28,14 +28,6 @@ const HealthForecast = () => (
       <div className="flex flex-col items-center p-2 rounded-lg bg-accent">
         <Sun className="w-6 h-6 text-yellow-500" />
         <span className="text-xs mt-1">Today</span>
-      </div>
-      <div className="flex flex-col items-center p-2 rounded-lg">
-        <Cloud className="w-6 h-6 text-gray-400" />
-        <span className="text-xs mt-1">Tomorrow</span>
-      </div>
-      <div className="flex flex-col items-center p-2 rounded-lg">
-        <CloudRain className="w-6 h-6 text-blue-400" />
-        <span className="text-xs mt-1">Next Day</span>
       </div>
     </div>
   </div>
