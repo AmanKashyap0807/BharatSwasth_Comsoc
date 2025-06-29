@@ -1,11 +1,12 @@
+import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import { MessageSquare } from "lucide-react"
 
 const providers = [
-  { name: "Nurse Anjali", role: "Registered Nurse", avatar: "https://placehold.co/100x100.png", hint: "woman nurse" },
-  { name: "Rajesh Kumar", role: "Student Intern", avatar: "https://placehold.co/100x100.png", hint: "man student" },
+  { id: "nurse-anjali", name: "Nurse Anjali", role: "Registered Nurse", avatar: "https://placehold.co/100x100.png", hint: "woman nurse" },
+  { id: "rajesh-kumar", name: "Rajesh Kumar", role: "Student Intern", avatar: "https://placehold.co/100x100.png", hint: "man student" },
 ]
 
 export default function ProviderMessaging() {
@@ -28,9 +29,11 @@ export default function ProviderMessaging() {
                 <p className="text-xs text-muted-foreground">{provider.role}</p>
               </div>
             </div>
-            <Button size="sm" variant="ghost">
-              <MessageSquare className="w-4 h-4 mr-2" />
-              Message
+            <Button asChild size="sm" variant="ghost">
+              <Link href={`/consult/${provider.id}`}>
+                <MessageSquare className="w-4 h-4 mr-2" />
+                Message
+              </Link>
             </Button>
           </div>
         ))}
