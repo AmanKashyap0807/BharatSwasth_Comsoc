@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Mic, Image as ImageIcon, Send, Bot, User, PlusCircle, MessageSquare, Trash2, History } from "lucide-react"
+import { Mic, Image as ImageIcon, Send, Bot, User, PlusCircle, MessageSquare, History } from "lucide-react"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 
@@ -76,11 +76,8 @@ export default function MediBot() {
   
   const ChatHistoryPanel = (
     <>
-      <div className="p-4 flex justify-between items-center border-b">
+      <div className="p-4 border-b">
         <h2 className="text-lg font-semibold">Chat History</h2>
-        <Button variant="ghost" size="icon" className="h-8 w-8">
-          <PlusCircle className="h-5 w-5" />
-        </Button>
       </div>
       <ScrollArea className="flex-1">
         <div className="p-2 space-y-1">
@@ -102,8 +99,8 @@ export default function MediBot() {
       </ScrollArea>
       <div className="p-2 border-t">
         <Button variant="outline" className="w-full justify-center">
-          <Trash2 className="mr-2 h-4 w-4" />
-          Clear History
+          <PlusCircle className="mr-2 h-4 w-4" />
+          New Chat
         </Button>
       </div>
     </>
@@ -112,7 +109,7 @@ export default function MediBot() {
   return (
     <div className="flex h-full w-full bg-background">
       {/* Desktop History Panel */}
-      <div className="hidden md:flex flex-col w-72 border-r bg-accent/40">
+      <div className="hidden md:flex flex-col w-72 border-r bg-secondary">
         {ChatHistoryPanel}
       </div>
 
@@ -135,7 +132,7 @@ export default function MediBot() {
                             <span className="sr-only">Chat History</span>
                         </Button>
                     </SheetTrigger>
-                    <SheetContent side="right" className="p-0 w-80 bg-accent/40">
+                    <SheetContent side="right" className="p-0 w-80 bg-background">
                       <div className="flex flex-col h-full">
                         {ChatHistoryPanel}
                       </div>
