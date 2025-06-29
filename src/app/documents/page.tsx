@@ -11,6 +11,7 @@ import {
   MoreVertical,
   Plus,
   Search,
+  Eye,
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -24,8 +25,28 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog"
 
-const initialDocuments = [
+type Document = {
+  id: number;
+  name: string;
+  date: string;
+  type: string;
+};
+
+const initialDocuments: Document[] = [
   { id: 1, name: "Blood Test Report", date: "2024-07-15", type: "Lab Report" },
   { id: 2, name: "Dr. Singh's Prescription", date: "2024-07-12", type: "Prescription" },
   { id: 3, name: "X-Ray Scan - Left Arm", date: "2024-07-10", type: "Imaging" },
@@ -33,11 +54,15 @@ const initialDocuments = [
 ];
 
 export default function DocumentsPage() {
-  const [documents, setDocuments] = React.useState(initialDocuments);
+  const [documents, setDocuments] = React.useState<Document[]>(initialDocuments);
   const [searchQuery, setSearchQuery] = React.useState("");
   const [date, setDate] = React.useState<DateRange | undefined>();
   const [isUploading, setIsUploading] = React.useState(false);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  const [selectedDoc, setSelectedDoc] = React.useState<Document | null>(null);
+  const [isPreviewOpen, setIsPreviewOpen] = React.useState(false);
+  const [isSummaryOpen, setIsSummaryOpen] = React.useState(false);
 
   const handleAddDocumentClick = () => {
     fileInputRef.current?.click();
@@ -49,7 +74,7 @@ export default function DocumentsPage() {
 
     setIsUploading(true);
     setTimeout(() => {
-      const newDocument = {
+      const newDocument: Document = {
         id: documents.length + 1,
         name: file.name,
         date: new Date().toISOString().split('T')[0], // format as YYYY-MM-DD
@@ -59,10 +84,19 @@ export default function DocumentsPage() {
       setIsUploading(false);
     }, 2000);
 
-    // Reset file input to allow uploading the same file again
     if (event.target) {
       event.target.value = "";
     }
+  };
+
+  const handlePreview = (doc: Document) => {
+    setSelectedDoc(doc);
+    setIsPreviewOpen(true);
+  };
+
+  const handleSummary = (doc: Document) => {
+    setSelectedDoc(doc);
+    setIsSummaryOpen(true);
   };
 
   const filteredDocuments = documents
@@ -76,7 +110,6 @@ export default function DocumentsPage() {
         return docDate >= date.from;
       }
       if (date.from && date.to) {
-        // add a day to `to` to make it inclusive
         return docDate >= date.from && docDate <= addDays(date.to, 1);
       }
       return true;
@@ -168,10 +201,24 @@ export default function DocumentsPage() {
                         <Download className="h-4 w-4" />
                         <span className="sr-only">Download</span>
                       </Button>
-                      <Button variant="ghost" size="icon">
-                        <MoreVertical />
-                        <span className="sr-only">More options</span>
-                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button variant="ghost" size="icon">
+                            <MoreVertical />
+                            <span className="sr-only">More options</span>
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => handlePreview(doc)}>
+                            <Eye className="mr-2 h-4 w-4" />
+                            <span>Preview</span>
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => handleSummary(doc)}>
+                            <FileText className="mr-2 h-4 w-4" />
+                            <span>Summary</span>
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
                     </div>
                   </CardContent>
                 </Card>
@@ -203,6 +250,41 @@ export default function DocumentsPage() {
           <Plus className="h-8 w-8" />
         )}
       </Button>
+
+      <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+        <DialogContent className="sm:max-w-2xl">
+            <DialogHeader>
+                <DialogTitle>{selectedDoc?.name}</DialogTitle>
+                <DialogDescription>
+                    Document Preview
+                </DialogDescription>
+            </DialogHeader>
+            <div className="mt-4">
+                <img src="https://placehold.co/600x800.png" data-ai-hint="document paper" alt="Document Preview" className="w-full rounded-md border" />
+            </div>
+        </DialogContent>
+      </Dialog>
+      <Dialog open={isSummaryOpen} onOpenChange={setIsSummaryOpen}>
+          <DialogContent>
+              <DialogHeader>
+                  <DialogTitle>Summary of {selectedDoc?.name}</DialogTitle>
+                  <DialogDescription>
+                      This is a simulated AI-generated summary of your document.
+                  </DialogDescription>
+              </DialogHeader>
+              <div className="mt-4 space-y-2 text-sm text-muted-foreground">
+                  <p>
+                      This blood test report indicates that most markers, including cholesterol and glucose, are within the normal range. There is a slight elevation in white blood cell count, which could suggest a minor infection.
+                  </p>
+                  <p className="font-semibold">
+                      Recommendation:
+                  </p>
+                  <p>
+                      Monitor for any developing symptoms. A follow-up test is recommended in 2-4 weeks to ensure levels return to normal.
+                  </p>
+              </div>
+          </DialogContent>
+      </Dialog>
     </div>
   );
 }
