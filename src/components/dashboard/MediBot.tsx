@@ -3,18 +3,23 @@
 import * as React from "react"
 import { useToast } from "@/hooks/use-toast"
 import { getAiResponse } from "@/app/actions"
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Mic, Image as ImageIcon, Send, Bot, User } from "lucide-react"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Mic, Image as ImageIcon, Send, Bot, User, PlusCircle, MessageSquare, Trash2 } from "lucide-react"
 
 interface Message {
   id: number;
   sender: 'user' | 'bot';
   content: React.ReactNode;
 }
+
+const chatHistory = [
+  { id: 'chat1', title: 'Fever and cough' },
+  { id: 'chat2', title: 'Skin rash query' },
+  { id: 'chat3', title: 'Follow-up on headache' },
+];
 
 export default function MediBot() {
   const [messages, setMessages] = React.useState<Message[]>([
@@ -24,6 +29,7 @@ export default function MediBot() {
   const [isLoading, setIsLoading] = React.useState(false);
   const { toast } = useToast();
   const chatContainerRef = React.useRef<HTMLDivElement>(null);
+  const [activeChat, setActiveChat] = React.useState('chat1');
 
   React.useEffect(() => {
     if (chatContainerRef.current) {
@@ -48,7 +54,7 @@ export default function MediBot() {
         title: "Error",
         description: response.error,
       });
-      setMessages(prev => prev.filter(m => m.id !== userMessage.id)); // Optionally remove failed message
+      setMessages(prev => prev.filter(m => m.id !== userMessage.id));
     } else {
       const botResponse: Message = {
         id: Date.now() + 1,
@@ -66,15 +72,46 @@ export default function MediBot() {
   };
 
   return (
-    <Card className="shadow-md flex flex-col h-[600px]">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
+    <div className="flex h-full w-full bg-background">
+      <div className="hidden md:flex flex-col w-72 border-r bg-accent/40">
+        <div className="p-4 flex justify-between items-center border-b">
+          <h2 className="text-lg font-semibold">Chat History</h2>
+          <Button variant="ghost" size="icon" className="h-8 w-8">
+            <PlusCircle className="h-5 w-5" />
+          </Button>
+        </div>
+        <ScrollArea className="flex-1">
+          <div className="p-2 space-y-1">
+            {chatHistory.map((chat) => (
+              <Button
+                key={chat.id}
+                variant={activeChat === chat.id ? "secondary" : "ghost"}
+                className="w-full justify-start items-center"
+                onClick={() => setActiveChat(chat.id)}
+              >
+                <MessageSquare className="mr-2 h-4 w-4 flex-shrink-0" />
+                <span className="truncate">{chat.title}</span>
+              </Button>
+            ))}
+          </div>
+        </ScrollArea>
+        <div className="p-2 border-t">
+          <Button variant="outline" className="w-full justify-center">
+            <Trash2 className="mr-2 h-4 w-4" />
+            Clear History
+          </Button>
+        </div>
+      </div>
+
+      <div className="flex-1 flex flex-col">
+        <header className="p-4 border-b hidden md:flex items-center gap-3">
           <Bot className="w-6 h-6 text-primary"/> 
-          MediBot
-        </CardTitle>
-        <CardDescription>Your AI health assistant for symptom analysis.</CardDescription>
-      </CardHeader>
-      <CardContent className="flex-1 flex flex-col p-0">
+          <div>
+            <h1 className="text-xl font-bold">MediBot</h1>
+            <p className="text-sm text-muted-foreground">Your AI health assistant for symptom analysis.</p>
+          </div>
+        </header>
+
         <ScrollArea className="flex-1 p-6" ref={chatContainerRef}>
           <div className="space-y-4">
             {messages.map((message) => (
@@ -110,27 +147,30 @@ export default function MediBot() {
             )}
           </div>
         </ScrollArea>
-        <div className="p-4 border-t bg-background rounded-b-lg">
-          <form onSubmit={handleSubmit} className="flex items-center gap-2">
-            <Button type="button" variant="ghost" size="icon" className="flex-shrink-0">
-              <ImageIcon className="w-5 h-5" />
-            </Button>
-            <Button type="button" variant="ghost" size="icon" className="flex-shrink-0">
-              <Mic className="w-5 h-5" />
-            </Button>
+        <div className="p-4 border-t bg-background">
+          <form onSubmit={handleSubmit} className="relative">
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type your symptoms..."
               disabled={isLoading}
               autoComplete="off"
+              className="pr-24"
             />
-            <Button type="submit" size="icon" disabled={isLoading || !input.trim()} className="flex-shrink-0">
-              <Send className="w-5 h-5" />
-            </Button>
+            <div className="absolute inset-y-0 right-0 flex items-center pr-2">
+               <Button type="button" variant="ghost" size="icon" className="flex-shrink-0">
+                <ImageIcon className="w-5 h-5" />
+              </Button>
+              <Button type="button" variant="ghost" size="icon" className="flex-shrink-0">
+                <Mic className="w-5 h-5" />
+              </Button>
+              <Button type="submit" size="icon" disabled={isLoading || !input.trim()} className="flex-shrink-0">
+                <Send className="w-5 h-5" />
+              </Button>
+            </div>
           </form>
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   )
 }

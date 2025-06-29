@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
+  Bot,
   FolderHeart,
   HeartPulse,
   LayoutDashboard,
@@ -27,6 +28,7 @@ export function AppSidebar() {
     { href: '/', label: 'Dashboard', icon: LayoutDashboard },
     { href: '/check-in', label: 'Check-in', icon: HeartPulse },
     { href: '/consult', label: 'Consult', icon: MessageCircle },
+    { href: '/medibot', label: 'MediBot', icon: Bot },
     { href: '/family', label: 'Family Watch', icon: Users },
     { href: '/documents', label: 'Documents', icon: FolderHeart },
   ];
