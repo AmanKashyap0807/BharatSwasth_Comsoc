@@ -7,7 +7,9 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Mic, Image as ImageIcon, Send, Bot, User, PlusCircle, MessageSquare, Trash2 } from "lucide-react"
+import { Mic, Image as ImageIcon, Send, Bot, User, PlusCircle, MessageSquare, Trash2, History } from "lucide-react"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { SidebarTrigger } from "@/components/ui/sidebar"
 
 interface Message {
   id: number;
@@ -30,6 +32,7 @@ export default function MediBot() {
   const { toast } = useToast();
   const chatContainerRef = React.useRef<HTMLDivElement>(null);
   const [activeChat, setActiveChat] = React.useState('chat1');
+  const [isHistoryOpen, setIsHistoryOpen] = React.useState(false);
 
   React.useEffect(() => {
     if (chatContainerRef.current) {
@@ -70,46 +73,75 @@ export default function MediBot() {
     }
     setIsLoading(false);
   };
+  
+  const ChatHistoryPanel = (
+    <>
+      <div className="p-4 flex justify-between items-center border-b">
+        <h2 className="text-lg font-semibold">Chat History</h2>
+        <Button variant="ghost" size="icon" className="h-8 w-8">
+          <PlusCircle className="h-5 w-5" />
+        </Button>
+      </div>
+      <ScrollArea className="flex-1">
+        <div className="p-2 space-y-1">
+          {chatHistory.map((chat) => (
+            <Button
+              key={chat.id}
+              variant={activeChat === chat.id ? "secondary" : "ghost"}
+              className="w-full justify-start items-center"
+              onClick={() => {
+                setActiveChat(chat.id);
+                setIsHistoryOpen(false);
+              }}
+            >
+              <MessageSquare className="mr-2 h-4 w-4 flex-shrink-0" />
+              <span className="truncate">{chat.title}</span>
+            </Button>
+          ))}
+        </div>
+      </ScrollArea>
+      <div className="p-2 border-t">
+        <Button variant="outline" className="w-full justify-center">
+          <Trash2 className="mr-2 h-4 w-4" />
+          Clear History
+        </Button>
+      </div>
+    </>
+  );
 
   return (
     <div className="flex h-full w-full bg-background">
+      {/* Desktop History Panel */}
       <div className="hidden md:flex flex-col w-72 border-r bg-accent/40">
-        <div className="p-4 flex justify-between items-center border-b">
-          <h2 className="text-lg font-semibold">Chat History</h2>
-          <Button variant="ghost" size="icon" className="h-8 w-8">
-            <PlusCircle className="h-5 w-5" />
-          </Button>
-        </div>
-        <ScrollArea className="flex-1">
-          <div className="p-2 space-y-1">
-            {chatHistory.map((chat) => (
-              <Button
-                key={chat.id}
-                variant={activeChat === chat.id ? "secondary" : "ghost"}
-                className="w-full justify-start items-center"
-                onClick={() => setActiveChat(chat.id)}
-              >
-                <MessageSquare className="mr-2 h-4 w-4 flex-shrink-0" />
-                <span className="truncate">{chat.title}</span>
-              </Button>
-            ))}
-          </div>
-        </ScrollArea>
-        <div className="p-2 border-t">
-          <Button variant="outline" className="w-full justify-center">
-            <Trash2 className="mr-2 h-4 w-4" />
-            Clear History
-          </Button>
-        </div>
+        {ChatHistoryPanel}
       </div>
 
-      <div className="flex-1 flex flex-col">
-        <header className="p-4 border-b hidden md:flex items-center gap-3">
-          <Bot className="w-6 h-6 text-primary"/> 
-          <div>
-            <h1 className="text-xl font-bold">MediBot</h1>
-            <p className="text-sm text-muted-foreground">Your AI health assistant for symptom analysis.</p>
-          </div>
+      <div className="flex-1 flex flex-col h-full overflow-hidden">
+        <header className="p-4 border-b flex items-center justify-between">
+            <div className="flex items-center gap-3">
+                <SidebarTrigger className="md:hidden" />
+                <Bot className="w-6 h-6 text-primary"/> 
+                <div>
+                    <h1 className="text-xl font-bold">MediBot</h1>
+                    <p className="text-sm text-muted-foreground hidden md:block">Your AI health assistant for symptom analysis.</p>
+                </div>
+            </div>
+            
+            <div className="md:hidden">
+                <Sheet open={isHistoryOpen} onOpenChange={setIsHistoryOpen}>
+                    <SheetTrigger asChild>
+                        <Button variant="ghost" size="icon">
+                            <History className="h-5 w-5" />
+                            <span className="sr-only">Chat History</span>
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="right" className="p-0 w-80 bg-accent/40">
+                      <div className="flex flex-col h-full">
+                        {ChatHistoryPanel}
+                      </div>
+                    </SheetContent>
+                </Sheet>
+            </div>
         </header>
 
         <ScrollArea className="flex-1 p-6" ref={chatContainerRef}>
