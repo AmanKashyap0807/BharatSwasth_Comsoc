@@ -1,5 +1,5 @@
 import HealthOverview from '@/components/dashboard/HealthOverview';
-import HealthLegend from '@/components/dashboard/HealthLegend';
+import PatientSummary from '@/components/dashboard/PatientSummary';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 
 export default function Home() {
@@ -13,14 +13,8 @@ export default function Home() {
         </div>
       </header>
       <main className="flex-1 space-y-6 p-4 sm:p-6">
-        <div className="grid gap-6 lg:grid-cols-3">
-          <div className="lg:col-span-2">
-            <HealthOverview />
-          </div>
-          <div className="lg:col-span-1">
-            <HealthLegend />
-          </div>
-        </div>
+        <PatientSummary />
+        <HealthOverview />
       </main>
     </div>
   );
