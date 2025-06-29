@@ -39,19 +39,32 @@ export default function DocumentsPage() {
   const [searchQuery, setSearchQuery] = React.useState("");
   const [date, setDate] = React.useState<DateRange | undefined>();
   const [isUploading, setIsUploading] = React.useState(false);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-  const handleUpload = () => {
+  const handleAddDocumentClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
     setIsUploading(true);
     setTimeout(() => {
       const newDocument = {
         id: documents.length + 1,
-        name: "New Medical Record",
+        name: file.name,
         date: new Date().toISOString().split('T')[0], // format as YYYY-MM-DD
         type: "General",
       };
       setDocuments(prev => [newDocument, ...prev]);
       setIsUploading(false);
     }, 2000);
+
+    // Reset file input to allow uploading the same file again
+    if (event.target) {
+      event.target.value = "";
+    }
   };
 
   const filteredDocuments = documents
@@ -73,6 +86,13 @@ export default function DocumentsPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 lg:p-8">
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileSelect}
+        className="hidden"
+        accept="application/pdf,image/*,.doc,.docx"
+      />
       <div className="max-w-4xl mx-auto">
         <header className="mb-6">
           <Link href="/" className="flex items-center text-sm text-muted-foreground hover:text-foreground mb-4">
@@ -84,7 +104,7 @@ export default function DocumentsPage() {
               <h1 className="text-2xl sm:text-4xl font-bold font-headline">Medical Documents</h1>
               <p className="text-muted-foreground mt-1">Your secure digital file for all health records.</p>
             </div>
-            <Button onClick={handleUpload} disabled={isUploading} className="w-full sm:w-auto">
+            <Button onClick={handleAddDocumentClick} disabled={isUploading} className="w-full sm:w-auto">
               {isUploading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
