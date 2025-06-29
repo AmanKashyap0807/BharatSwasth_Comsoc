@@ -1,6 +1,7 @@
 import ProviderMessaging from '@/components/dashboard/ProviderMessaging';
 import WhatsAppConsults from '@/components/dashboard/WhatsAppConsults';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import MediBot from '@/components/dashboard/MediBot';
 
 export default function ConsultPage() {
   return (
@@ -12,9 +13,14 @@ export default function ConsultPage() {
                 <p className="text-muted-foreground text-sm">Connect with your care team.</p>
             </div>
         </header>
-        <main className="flex-1 grid gap-6 p-4 sm:p-6 md:grid-cols-2">
-            <ProviderMessaging />
-            <WhatsAppConsults />
+        <main className="flex-1 grid gap-6 p-4 sm:p-6 md:grid-cols-1 lg:grid-cols-3">
+            <div className="space-y-6 lg:col-span-1">
+                <ProviderMessaging />
+                <WhatsAppConsults />
+            </div>
+            <div className="lg:col-span-2">
+                <MediBot />
+            </div>
         </main>
     </div>
   );
