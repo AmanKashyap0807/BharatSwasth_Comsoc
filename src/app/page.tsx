@@ -12,8 +12,8 @@ export default function Home() {
     <>
       <div className="min-h-screen bg-background text-foreground">
         <div className="p-4 sm:p-6 lg:p-8">
-          <header className="mb-4 sm:mb-8">
-            <h1 className="text-3xl sm:text-4xl font-bold font-headline">BhawatSwasth</h1>
+          <header className="mb-6">
+            <h1 className="text-2xl sm:text-4xl font-bold font-headline">BharatSwasth</h1>
             <p className="text-muted-foreground mt-1">Your personal health journey, simplified.</p>
           </header>
           <main className="space-y-6">
