@@ -1,5 +1,4 @@
 import SymptomTracker from '@/components/dashboard/SymptomTracker';
-import MediBot from '@/components/dashboard/MediBot';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 
 export default function CheckInPage() {
@@ -9,15 +8,12 @@ export default function CheckInPage() {
             <SidebarTrigger className="md:hidden" />
             <div>
                 <h1 className="text-2xl font-bold">Daily Check-in</h1>
-                <p className="text-muted-foreground text-sm">Log symptoms and chat with MediBot.</p>
+                <p className="text-muted-foreground text-sm">Log your daily symptoms and mood.</p>
             </div>
         </header>
-        <main className="flex-1 grid gap-6 p-4 sm:p-6 lg:grid-cols-2 xl:grid-cols-3">
-            <div className="xl:col-span-1">
+        <main className="flex-1 p-4 sm:p-6">
+            <div className="max-w-2xl mx-auto">
                 <SymptomTracker />
-            </div>
-            <div className="xl:col-span-2">
-                <MediBot />
             </div>
         </main>
     </div>
