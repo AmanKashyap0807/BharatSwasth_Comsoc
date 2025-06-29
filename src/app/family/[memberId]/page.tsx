@@ -146,7 +146,7 @@ export default function FamilyMemberDetailPage({ params }: { params: { memberId:
       <main className="flex-1 space-y-6 p-4 sm:p-6">
         <div className="grid gap-6 md:grid-cols-2">
             {hasAppointments ? <UpcomingAppointments appointments={member.appointments} /> : <Card><CardHeader><CardTitle>No Upcoming Appointments</CardTitle></CardHeader><CardContent><p className="text-muted-foreground">No appointments are scheduled.</p></CardContent></Card>}
-            {hasMedications ? <MedicationSchedule schedule={member.medications} /> : <Card><CardHeader><CardTitle>No Medications</CardTitle></CardHeader><CardContent><p className="text-muted-foreground">No medications are scheduled for today.</p></CardContent></Card>}
+            {hasMedications ? <MedicationSchedule schedule={member.medications} isEditable={false} /> : <Card><CardHeader><CardTitle>No Medications</CardTitle></CardHeader><CardContent><p className="text-muted-foreground">No medications are scheduled for today.</p></CardContent></Card>}
         </div>
         <HealthOverview {...member.healthData} />
         <PatientSummary summary={member.summary} />

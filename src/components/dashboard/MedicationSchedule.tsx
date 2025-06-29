@@ -27,6 +27,7 @@ type Schedule = {
 };
 type MedicationScheduleProps = {
     schedule?: Schedule;
+    isEditable?: boolean;
 };
 
 const TimeOfDayIcon = ({ time }: { time: string }) => {
@@ -36,7 +37,7 @@ const TimeOfDayIcon = ({ time }: { time: string }) => {
     return null;
 }
 
-export default function MedicationSchedule({ schedule = defaultSchedule }: MedicationScheduleProps) {
+export default function MedicationSchedule({ schedule = defaultSchedule, isEditable = true }: MedicationScheduleProps) {
   return (
     <Card className="shadow-md">
       <CardHeader>
@@ -61,7 +62,7 @@ export default function MedicationSchedule({ schedule = defaultSchedule }: Medic
                                 </div>
                             </div>
                             <div className="flex items-center space-x-2">
-                                <Checkbox id={`med-morning-${index}-${med.name}`} defaultChecked={med.taken} />
+                                <Checkbox id={`med-morning-${index}-${med.name}`} defaultChecked={med.taken} disabled={!isEditable} />
                                 <label
                                     htmlFor={`med-morning-${index}-${med.name}`}
                                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -91,7 +92,7 @@ export default function MedicationSchedule({ schedule = defaultSchedule }: Medic
                                 </div>
                             </div>
                             <div className="flex items-center space-x-2">
-                                <Checkbox id={`med-afternoon-${index}-${med.name}`} defaultChecked={med.taken} />
+                                <Checkbox id={`med-afternoon-${index}-${med.name}`} defaultChecked={med.taken} disabled={!isEditable} />
                                 <label
                                     htmlFor={`med-afternoon-${index}-${med.name}`}
                                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
@@ -121,7 +122,7 @@ export default function MedicationSchedule({ schedule = defaultSchedule }: Medic
                                 </div>
                             </div>
                             <div className="flex items-center space-x-2">
-                                <Checkbox id={`med-night-${index}-${med.name}`} defaultChecked={med.taken} />
+                                <Checkbox id={`med-night-${index}-${med.name}`} defaultChecked={med.taken} disabled={!isEditable} />
                                 <label
                                     htmlFor={`med-night-${index}-${med.name}`}
                                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
