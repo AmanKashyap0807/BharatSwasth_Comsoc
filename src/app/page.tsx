@@ -1,5 +1,5 @@
 import HealthOverview from '@/components/dashboard/HealthOverview';
-import TreatmentTracker from '@/components/dashboard/TreatmentTracker';
+import HealthLegend from '@/components/dashboard/HealthLegend';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 
 export default function Home() {
@@ -18,7 +18,7 @@ export default function Home() {
             <HealthOverview />
           </div>
           <div className="lg:col-span-1">
-            <TreatmentTracker />
+            <HealthLegend />
           </div>
         </div>
       </main>

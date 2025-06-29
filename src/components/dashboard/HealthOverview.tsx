@@ -1,134 +1,169 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { Sun, HeartPulse, Droplets, Wind, Pill } from "lucide-react"
-import { RadialBarChart, RadialBar, PolarGrid, Tooltip, ResponsiveContainer } from "recharts"
-import { SunflowerIcon } from "@/components/icons"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  ReferenceLine,
+  BarChart,
+  Bar,
+} from "recharts"
 
-const chartData = [
-  { name: 'Heart Rate', value: 72, fill: 'var(--color-heart)' },
-  { name: 'Blood Pressure', value: 80, fill: 'var(--color-bp)' },
-  { name: 'O2 Saturation', value: 98, fill: 'var(--color-o2)' },
+const bpData = [
+  { name: 'Apr 2024', Systolic: 135, Diastolic: 82 },
+  { name: 'May 2024', Systolic: 136, Diastolic: 83 },
+  { name: 'Jun 2024', Systolic: 134, Diastolic: 81 },
+  { name: 'Jul 2024', Systolic: 132, Diastolic: 80 },
+  { name: 'Aug 2024', Systolic: 133, Diastolic: 82 },
+  { name: 'Sep 2024', Systolic: 130, Diastolic: 79 },
+  { name: 'Oct 2024', Systolic: 128, Diastolic: 78 },
+  { name: 'Nov 2024', Systolic: 127, Diastolic: 78 },
+  { name: 'Dec 2024', Systolic: 129, Diastolic: 80 },
+  { name: 'Jan 2025', Systolic: 126, Diastolic: 77 },
+  { name: 'Feb 2025', Systolic: 125, Diastolic: 76 },
+  { name: 'Mar 2025', Systolic: 127, Diastolic: 78 },
+  { name: 'Apr 2025', Systolic: 128, Diastolic: 79 },
 ];
 
-const chartConfig = {
-  value: { label: "Value" },
-  heart: { label: "Heart Rate", color: "hsl(var(--chart-1))" },
-  bp: { label: "Blood Pressure", color: "hsl(var(--chart-2))" },
-  o2: { label: "O2 Saturation", color: "hsl(var(--chart-4))" },
-}
+const weightData = [
+  { name: 'Apr 2024', Weight: 68 },
+  { name: 'May 2024', Weight: 68 },
+  { name: 'Jun 2024', Weight: 68 },
+  { name: 'Jul 2024', Weight: 68 },
+  { name: 'Aug 2024', Weight: 68 },
+  { name: 'Sep 2024', Weight: 68 },
+  { name: 'Oct 2024', Weight: 68 },
+  { name: 'Nov 2024', Weight: 68 },
+  { name: 'Dec 2024', Weight: 68 },
+  { name: 'Jan 2025', Weight: 68 },
+  { name: 'Feb 2025', Weight: 68 },
+  { name: 'Mar 2025', Weight: 68 },
+  { name: 'Apr 2025', Weight: 68 },
+];
 
-const HealthForecast = () => (
-  <div className="flex items-center justify-between">
-    <div>
-      <h3 className="text-sm font-medium text-muted-foreground">Health Forecast</h3>
-      <p className="text-2xl font-bold">Feeling Good</p>
-    </div>
-    <div className="flex space-x-2">
-      <div className="flex flex-col items-center p-2 rounded-lg bg-accent">
-        <Sun className="w-6 h-6 text-yellow-500" />
-        <span className="text-xs mt-1">Today</span>
-      </div>
-    </div>
-  </div>
-);
+const sugarData = [
+    { name: 'Apr 2024', "Blood Sugar": 96 },
+    { name: 'May 2024', "Blood Sugar": 97 },
+    { name: 'Jun 2024', "Blood Sugar": 95 },
+    { name: 'Jul 2024', "Blood Sugar": 94 },
+    { name: 'Aug 2024', "Blood Sugar": 92 },
+    { name: 'Sep 2024', "Blood Sugar": 91 },
+    { name: 'Oct 2024', "Blood Sugar": 90 },
+    { name: 'Nov 2024', "Blood Sugar": 89 },
+    { name: 'Dec 2024', "Blood Sugar": 90 },
+    { name: 'Jan 2025', "Blood Sugar": 89 },
+    { name: 'Feb 2025', "Blood Sugar": 90 },
+    { name: 'Mar 2025', "Blood Sugar": 91 },
+    { name: 'Apr 2025', "Blood Sugar": 92 },
+];
 
-const VitalSignsRing = () => (
-  <div>
-    <h3 className="text-sm font-medium text-muted-foreground">Vital Signs</h3>
-    <div className="h-48 w-full">
-      <ResponsiveContainer width="100%" height="100%">
-        <RadialBarChart
-          data={chartData}
-          innerRadius="30%"
-          outerRadius="100%"
-          barSize={10}
-          startAngle={90}
-          endAngle={-270}
-        >
-          <PolarGrid gridType="circle" />
-          <RadialBar
-            background
-            dataKey="value"
-            cornerRadius={10}
-          />
-          <Tooltip 
-            cursor={{ strokeDasharray: '3 3' }}
-            contentStyle={{
-              background: "hsl(var(--card))",
-              borderColor: "hsl(var(--border))",
-              borderRadius: "var(--radius)"
-            }}
-          />
-        </RadialBarChart>
-      </ResponsiveContainer>
-    </div>
-    <div className="grid grid-cols-3 gap-2 text-center text-xs mt-2">
-      <div className="flex flex-col items-center">
-        <HeartPulse className="w-5 h-5 text-[hsl(var(--chart-1))]" />
-        <span className="font-bold">72 bpm</span>
-        <span>Heart Rate</span>
-      </div>
-      <div className="flex flex-col items-center">
-        <Droplets className="w-5 h-5 text-[hsl(var(--chart-2))]" />
-        <span className="font-bold">120/80</span>
-        <span>Blood Pressure</span>
-      </div>
-      <div className="flex flex-col items-center">
-        <Wind className="w-5 h-5 text-[hsl(var(--chart-4))]" />
-        <span className="font-bold">98%</span>
-        <span>O2 Saturation</span>
-      </div>
-    </div>
-  </div>
-);
+const healthScoreData = [
+    { name: 'Sep 24', "Health Score": 85 },
+    { name: 'Oct 24', "Health Score": 79 },
+    { name: 'Nov 24', "Health Score": 82 },
+    { name: 'Dec 24', "Health Score": 81 },
+    { name: 'Jan 25', "Health Score": 83 },
+    { name: 'Feb 25', "Health Score": 84 },
+    { name: 'Mar 25', "Health Score": 80 },
+    { name: 'Apr 25', "Health Score": 78 },
+    { name: 'May 25', "Health Score": 79 },
+    { name: 'Jun 25', "Health Score": 85 },
+    { name: 'Jul 25', "Health Score": 83 },
+];
 
-const MedicationSunflower = () => (
-  <div>
-    <div className="flex items-center space-x-2">
-      <SunflowerIcon className="w-5 h-5 text-yellow-600" />
-      <h3 className="text-sm font-medium text-muted-foreground">Medication Reminders</h3>
-    </div>
-    <ul className="mt-2 space-y-2">
-      <li className="flex items-center justify-between p-2 bg-accent/50 rounded-lg">
-        <div className="flex items-center">
-          <Pill className="w-4 h-4 mr-3 text-primary" />
-          <div>
-            <p className="font-semibold">Aspirin</p>
-            <p className="text-xs text-muted-foreground">1 tablet, after breakfast</p>
-          </div>
+const CustomTooltip = ({ active, payload, label }: any) => {
+    if (active && payload && payload.length) {
+      return (
+        <div className="p-2 bg-background/90 backdrop-blur-sm border rounded-lg shadow-lg">
+          <p className="label font-bold text-foreground">{`${label}`}</p>
+          {payload.map((pld: any, index: number) => (
+             <p key={index} style={{ color: pld.stroke || pld.fill }} className="text-sm">{`${pld.name}: ${pld.value}`}</p>
+          ))}
         </div>
-        <span className="text-xs font-medium">8:00 AM</span>
-      </li>
-      <li className="flex items-center justify-between p-2 bg-accent/50 rounded-lg">
-        <div className="flex items-center">
-          <Pill className="w-4 h-4 mr-3 text-primary" />
-          <div>
-            <p className="font-semibold">Metformin</p>
-            <p className="text-xs text-muted-foreground">1 tablet, after dinner</p>
-          </div>
-        </div>
-        <span className="text-xs font-medium">9:00 PM</span>
-      </li>
-    </ul>
-  </div>
-);
-
+      );
+    }
+    return null;
+};
 
 export default function HealthOverview() {
-  return (
-    <Card className="shadow-md">
-      <CardHeader>
-        <CardTitle>Health Dashboard</CardTitle>
-        <CardDescription>A comprehensive snapshot of your current health.</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        <HealthForecast />
-        <div className="grid md:grid-cols-2 gap-6 pt-4 border-t">
-          <VitalSignsRing />
-          <MedicationSunflower />
+    return (
+        <div className="grid gap-6 md:grid-cols-2">
+            <Card>
+                <CardHeader>
+                    <CardTitle>Blood Pressure Over Time</CardTitle>
+                </CardHeader>
+                <CardContent className="h-[300px] w-full">
+                    <ResponsiveContainer>
+                        <LineChart data={bpData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                            <XAxis dataKey="name" fontSize={12} stroke="hsl(var(--muted-foreground))" />
+                            <YAxis domain={[70, 145]} fontSize={12} stroke="hsl(var(--muted-foreground))" />
+                            <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '3 3' }} />
+                            <ReferenceLine y={120} label={{ value: 'Normal Systolic Limit', position: 'insideTopRight', fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} stroke="hsl(var(--chart-5))" strokeDasharray="3 3" />
+                            <ReferenceLine y={80} label={{ value: 'Normal Diastolic Limit', position: 'insideBottomRight', fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} stroke="hsl(var(--primary))" strokeDasharray="3 3" />
+                            <Line type="monotone" name="Systolic" dataKey="Systolic" stroke="hsl(var(--destructive))" strokeWidth={2} dot={false} />
+                            <Line type="monotone" name="Diastolic" dataKey="Diastolic" stroke="hsl(var(--primary))" strokeWidth={2} dot={false} />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Weight Trend</CardTitle>
+                </CardHeader>
+                <CardContent className="h-[300px] w-full">
+                    <ResponsiveContainer>
+                        <BarChart data={weightData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+                            <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="hsl(var(--border))"/>
+                            <XAxis dataKey="name" fontSize={12} stroke="hsl(var(--muted-foreground))" />
+                            <YAxis domain={[0, 80]} fontSize={12} stroke="hsl(var(--muted-foreground))"/>
+                            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--accent))' }} />
+                            <Bar dataKey="Weight" fill="#a855f7" name="Weight (kg)" radius={[4, 4, 0, 0]} />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Blood Sugar Levels</CardTitle>
+                </CardHeader>
+                <CardContent className="h-[300px] w-full">
+                    <ResponsiveContainer>
+                        <LineChart data={sugarData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                            <XAxis dataKey="name" fontSize={12} stroke="hsl(var(--muted-foreground))" />
+                            <YAxis domain={[85, 105]} fontSize={12} stroke="hsl(var(--muted-foreground))" />
+                            <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '3 3' }}/>
+                            <ReferenceLine y={100} label={{ value: 'Normal Fasting Limit', position: 'insideTopRight', fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} stroke="hsl(var(--destructive))" strokeDasharray="3 3" />
+                            <Line type="monotone" dataKey="Blood Sugar" stroke="hsl(var(--chart-2))" strokeWidth={2} dot={false} name="Blood Sugar (mg/dL)" />
+                        </LineChart>
+                    </ResponsiveContainer>
+                </CardContent>
+            </Card>
+
+            <Card>
+                <CardHeader>
+                    <CardTitle>Health Score Progress</CardTitle>
+                </CardHeader>
+                <CardContent className="h-[300px] w-full">
+                    <ResponsiveContainer>
+                        <BarChart data={healthScoreData} margin={{ top: 5, right: 30, left: 0, bottom: 5 }}>
+                            <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="hsl(var(--border))"/>
+                            <XAxis dataKey="name" fontSize={12} stroke="hsl(var(--muted-foreground))"/>
+                            <YAxis domain={[0, 100]} fontSize={12} stroke="hsl(var(--muted-foreground))"/>
+                            <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--accent))' }} />
+                            <Bar dataKey="Health Score" fill="hsl(var(--chart-4))" radius={[4, 4, 0, 0]} />
+                        </BarChart>
+                    </ResponsiveContainer>
+                </CardContent>
+            </Card>
         </div>
-      </CardContent>
-    </Card>
-  )
+    )
 }
