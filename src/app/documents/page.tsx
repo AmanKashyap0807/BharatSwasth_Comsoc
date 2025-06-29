@@ -1,4 +1,3 @@
-
 "use client"
 
 import * as React from "react"
@@ -12,8 +11,8 @@ import {
   FileText,
   Loader2,
   MoreVertical,
+  Plus,
   Search,
-  Upload,
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -85,7 +84,7 @@ export default function DocumentsPage() {
     });
 
   return (
-    <div className="min-h-screen bg-background text-foreground p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-background text-foreground">
       <input
         type="file"
         ref={fileInputRef}
@@ -93,7 +92,7 @@ export default function DocumentsPage() {
         className="hidden"
         accept="application/pdf,image/*,.doc,.docx"
       />
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-4xl mx-auto p-4 sm:p-6 lg:p-8">
         <header className="mb-6">
           <Link href="/" className="flex items-center text-sm text-muted-foreground hover:text-foreground mb-4">
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -104,19 +103,6 @@ export default function DocumentsPage() {
               <h1 className="text-2xl sm:text-4xl font-bold font-headline">Medical Documents</h1>
               <p className="text-muted-foreground mt-1">Your secure digital file for all health records.</p>
             </div>
-            <Button onClick={handleAddDocumentClick} disabled={isUploading} className="w-full sm:w-auto">
-              {isUploading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Uploading...
-                </>
-              ) : (
-                <>
-                  <Upload className="mr-2" />
-                  Add Document
-                </>
-              )}
-            </Button>
           </div>
         </header>
 
@@ -168,7 +154,7 @@ export default function DocumentsPage() {
           </Popover>
         </div>
 
-        <main>
+        <main className="pb-24">
           {filteredDocuments.length > 0 ? (
             <div className="space-y-4">
               {filteredDocuments.map((doc) => (
@@ -182,9 +168,9 @@ export default function DocumentsPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <Button variant="outline" size="sm">
-                        <Download className="mr-2 h-4 w-4" />
-                        Download
+                      <Button variant="outline" size="icon">
+                        <Download className="h-4 w-4" />
+                        <span className="sr-only">Download</span>
                       </Button>
                       <Button variant="ghost" size="icon">
                         <MoreVertical />
@@ -207,6 +193,20 @@ export default function DocumentsPage() {
           )}
         </main>
       </div>
+
+      <Button
+        onClick={handleAddDocumentClick}
+        disabled={isUploading}
+        size="icon"
+        className="rounded-full w-16 h-16 shadow-lg fixed bottom-8 right-8 z-50"
+        aria-label="Add document"
+      >
+        {isUploading ? (
+          <Loader2 className="h-8 w-8 animate-spin" />
+        ) : (
+          <Plus className="h-8 w-8" />
+        )}
+      </Button>
     </div>
   );
 }
