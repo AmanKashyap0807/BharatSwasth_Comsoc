@@ -28,7 +28,7 @@ import {
   Legend,
 } from "recharts"
 
-const bpData = [
+const defaultBpData = [
   { name: 'Apr 2024', Systolic: 135, Diastolic: 82 },
   { name: 'May 2024', Systolic: 136, Diastolic: 83 },
   { name: 'Jun 2024', Systolic: 134, Diastolic: 81 },
@@ -44,7 +44,7 @@ const bpData = [
   { name: 'Apr 2025', Systolic: 128, Diastolic: 79 },
 ];
 
-const weightData = [
+const defaultWeightData = [
   { name: 'Apr 2024', Weight: 60 },
   { name: 'May 2024', Weight: 61 },
   { name: 'Jun 2024', Weight: 62 },
@@ -60,7 +60,7 @@ const weightData = [
   { name: 'Apr 2025', Weight: 70 },
 ];
 
-const sugarData = [
+const defaultSugarData = [
     { name: 'Apr 2024', "Blood Sugar": 96 },
     { name: 'May 2024', "Blood Sugar": 97 },
     { name: 'Jun 2024', "Blood Sugar": 95 },
@@ -76,7 +76,7 @@ const sugarData = [
     { name: 'Apr 2025', "Blood Sugar": 92 },
 ];
 
-const healthScoreData = [
+const defaultHealthScoreData = [
     { name: 'Sep 24', "Health Score": 75 },
     { name: 'Oct 24', "Health Score": 76 },
     { name: 'Nov 24', "Health Score": 78 },
@@ -104,7 +104,19 @@ const CustomTooltip = ({ active, payload, label }: any) => {
     return null;
 };
 
-export default function HealthOverview() {
+type HealthOverviewProps = {
+  bpData?: any[];
+  weightData?: any[];
+  sugarData?: any[];
+  healthScoreData?: any[];
+};
+
+export default function HealthOverview({ 
+    bpData = defaultBpData, 
+    weightData = defaultWeightData,
+    sugarData = defaultSugarData,
+    healthScoreData = defaultHealthScoreData
+}: HealthOverviewProps) {
     const [date, setDate] = React.useState<DateRange | undefined>({
       from: new Date(2024, 3, 1),
       to: new Date(2025, 3, 30),
@@ -160,7 +172,7 @@ export default function HealthOverview() {
                             <LineChart data={bpData} margin={{ top: 5, right: 30, left: 0, bottom: 20 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                                 <XAxis dataKey="name" fontSize={12} stroke="hsl(var(--muted-foreground))" />
-                                <YAxis domain={[70, 145]} fontSize={12} stroke="hsl(var(--muted-foreground))" />
+                                <YAxis domain={[70, 155]} fontSize={12} stroke="hsl(var(--muted-foreground))" />
                                 <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '3 3' }} />
                                 <Legend wrapperStyle={{ bottom: 0 }}/>
                                 <ReferenceLine y={120} label={{ value: 'Normal Systolic', position: 'insideTopRight', fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} stroke="hsl(var(--chart-5))" strokeDasharray="3 3" />
@@ -181,7 +193,7 @@ export default function HealthOverview() {
                             <BarChart data={weightData} margin={{ top: 5, right: 30, left: 0, bottom: 20 }}>
                                 <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="hsl(var(--border))"/>
                                 <XAxis dataKey="name" fontSize={12} stroke="hsl(var(--muted-foreground))" />
-                                <YAxis domain={[55, 75]} fontSize={12} stroke="hsl(var(--muted-foreground))" unit="kg"/>
+                                <YAxis domain={[50, 90]} fontSize={12} stroke="hsl(var(--muted-foreground))" unit="kg"/>
                                 <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--accent))' }} />
                                 <Legend wrapperStyle={{ bottom: 0 }}/>
                                 <Bar dataKey="Weight" fill="#a855f7" name="Weight (kg)" radius={[4, 4, 0, 0]} />
@@ -199,7 +211,7 @@ export default function HealthOverview() {
                             <LineChart data={sugarData} margin={{ top: 5, right: 30, left: 0, bottom: 20 }}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                                 <XAxis dataKey="name" fontSize={12} stroke="hsl(var(--muted-foreground))" />
-                                <YAxis domain={[85, 105]} fontSize={12} stroke="hsl(var(--muted-foreground))" unit="mg/dL" />
+                                <YAxis domain={[80, 160]} fontSize={12} stroke="hsl(var(--muted-foreground))" unit="mg/dL" />
                                 <Tooltip content={<CustomTooltip />} cursor={{ stroke: 'hsl(var(--primary))', strokeWidth: 1, strokeDasharray: '3 3' }}/>
                                 <Legend wrapperStyle={{ bottom: 0 }}/>
                                 <ReferenceLine y={100} label={{ value: 'Normal Fasting Limit', position: 'insideTopRight', fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} stroke="hsl(var(--destructive))" strokeDasharray="3 3" />
@@ -218,7 +230,7 @@ export default function HealthOverview() {
                             <BarChart data={healthScoreData} margin={{ top: 5, right: 30, left: 0, bottom: 20 }}>
                                 <CartesianGrid vertical={false} strokeDasharray="3 3" stroke="hsl(var(--border))"/>
                                 <XAxis dataKey="name" fontSize={12} stroke="hsl(var(--muted-foreground))"/>
-                                <YAxis domain={[70, 100]} fontSize={12} stroke="hsl(var(--muted-foreground))"/>
+                                <YAxis domain={[60, 100]} fontSize={12} stroke="hsl(var(--muted-foreground))"/>
                                 <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--accent))' }} />
                                 <Legend wrapperStyle={{ bottom: 0 }}/>
                                 <Bar dataKey="Health Score" fill="hsl(var(--chart-4))" radius={[4, 4, 0, 0]} />

@@ -2,7 +2,22 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { AlertCircle, ShieldCheck } from "lucide-react"
 
-export default function PatientSummary() {
+const defaultSummary = { 
+  condition: "Hypertension & Type 2 Diabetes", 
+  precautions: ["Low-sodium diet", "Monitor sugar intake", "Regular exercise"]
+};
+
+type Summary = {
+  condition: string;
+  precautions: string[];
+};
+
+type PatientSummaryProps = {
+  summary?: Summary;
+};
+
+
+export default function PatientSummary({ summary = defaultSummary }: PatientSummaryProps) {
   return (
     <div className="grid gap-6 md:grid-cols-2 mb-6">
       <Card>
@@ -11,7 +26,7 @@ export default function PatientSummary() {
             <AlertCircle className="w-6 h-6 text-destructive" />
             Current Condition
           </CardTitle>
-          <CardDescription>Hypertension & Type 2 Diabetes</CardDescription>
+          <CardDescription>{summary.condition}</CardDescription>
         </CardHeader>
         <CardContent>
             <p className="text-sm text-muted-foreground">Vitals are being monitored. Adherence to medication is key.</p>
@@ -26,9 +41,9 @@ export default function PatientSummary() {
           <CardDescription>Follow these guidelines for better health.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-2">
-            <Badge variant="outline">Low-sodium diet</Badge>
-            <Badge variant="outline">Monitor sugar intake</Badge>
-            <Badge variant="outline">Regular exercise</Badge>
+          {summary.precautions.map((precaution, index) => (
+            <Badge key={index} variant="outline">{precaution}</Badge>
+          ))}
         </CardContent>
       </Card>
     </div>

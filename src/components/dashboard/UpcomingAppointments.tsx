@@ -2,24 +2,36 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Button } from "@/components/ui/button"
 import { CalendarDays, Clock, Video, MapPin } from "lucide-react"
 
-const appointments = [
+const defaultAppointments = [
   {
     type: "Cardiology Check-up",
     doctor: "Dr. Verma",
     date: "July 28, 2024",
     time: "10:00 AM",
-    mode: "Online",
+    mode: "Online" as "Online" | "In-Person",
   },
   {
     type: "Physiotherapy Session",
     doctor: "Dr. Singh",
     date: "August 2, 2024",
     time: "2:30 PM",
-    mode: "In-Person",
+    mode: "In-Person" as "Online" | "In-Person",
   },
 ];
 
-export default function UpcomingAppointments() {
+type Appointment = {
+    type: string;
+    doctor: string;
+    date: string;
+    time: string;
+    mode: "Online" | "In-Person";
+};
+
+type UpcomingAppointmentsProps = {
+    appointments?: Appointment[];
+};
+
+export default function UpcomingAppointments({ appointments = defaultAppointments }: UpcomingAppointmentsProps) {
   return (
     <Card className="shadow-md">
       <CardHeader>

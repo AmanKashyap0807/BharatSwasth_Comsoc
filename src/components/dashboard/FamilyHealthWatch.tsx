@@ -45,10 +45,12 @@ export default function FamilyHealthWatch() {
                       Details
                   </Link>
                 </Button>
-                <Button size="icon" variant="destructive">
-                  <ShieldAlert className="w-4 h-4" />
-                  <span className="sr-only">Emergency</span>
-                </Button>
+                {member.healthStatus === 'critical' && (
+                  <Button size="icon" variant="destructive">
+                    <ShieldAlert className="w-4 h-4" />
+                    <span className="sr-only">Emergency</span>
+                  </Button>
+                )}
               </div>
             </div>
           </Card>
