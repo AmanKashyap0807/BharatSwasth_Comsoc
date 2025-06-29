@@ -2,6 +2,8 @@ import HealthOverview from '@/components/dashboard/HealthOverview';
 import PatientSummary from '@/components/dashboard/PatientSummary';
 import { SidebarTrigger } from '@/components/ui/sidebar';
 import { Star } from 'lucide-react';
+import UpcomingAppointments from '@/components/dashboard/UpcomingAppointments';
+import MedicationSchedule from '@/components/dashboard/MedicationSchedule';
 
 export default function Home() {
   return (
@@ -21,6 +23,10 @@ export default function Home() {
       </header>
       <main className="flex-1 space-y-6 p-4 sm:p-6">
         <PatientSummary />
+        <div className="grid gap-6 md:grid-cols-2">
+          <UpcomingAppointments />
+          <MedicationSchedule />
+        </div>
         <HealthOverview />
       </main>
     </div>
